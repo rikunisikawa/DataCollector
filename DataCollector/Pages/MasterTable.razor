@@ -1,0 +1,58 @@
+﻿@page "/master"
+@using MudBlazor
+@using DataCollector.Model
+
+<MudTable Items="@MasterItems" Dense="true" Hover="true" Striped="true">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Item Name</MudTh>
+        <MudTh>Type</MudTh>
+        <MudTh></MudTh> <!-- Actions column for edit/delete -->
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Item Name">
+            <MudTextField T="string" Value="@context.Name" ValueChanged="@(value => context.Name = value)" />
+        </MudTd>
+        <MudTd DataLabel="Type">
+@*             <MudSelect T="string" Value="@context.Type" ValueChanged="@(value => context.Type = value)">
+                <MudSelectItem Value="@str" />
+                <MudSelectItem Value="@num" />
+                <MudSelectItem Value="@date" />
+            </MudSelect> *@
+            <select @bind="context.Type" class="form-control">
+                <option value="文字">文字</option>
+                <option value="数字">数字</option>
+                <option value="日">日</option>
+            </select>
+
+        </MudTd>
+        <MudTd>
+            <MudButton OnClick="@(() => SaveItem(context))" Color="Color.Primary">Save</MudButton>
+            <MudButton OnClick="@(() => DeleteItem(context))" Color="Color.Secondary">Delete</MudButton>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    string str = "文字";
+    string num = "数値";
+    string date = "日";
+
+    // private List<MasterItem> MasterItems = new List<MasterItem>();
+    private List<MasterItem> MasterItems = new List<MasterItem>
+    {
+        new MasterItem { Id = 1, Name = "項目1", Type = "文字" },
+        new MasterItem { Id = 2, Name = "項目2", Type = "数字" },
+        new MasterItem { Id = 3, Name = "項目3", Type = "日" }
+    };
+    private void SaveItem(MasterItem item)
+    {
+        // Save logic here
+    }
+
+    private void DeleteItem(MasterItem item)
+    {
+        MasterItems.Remove(item);
+    }
+}
